@@ -1,0 +1,92 @@
+<content id="data-content">
+
+    <style>
+
+        .quicklinks-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .quicklink-pill a {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background-color: {{@root.theme.palette.neutralLighter}};
+            color: {{@root.theme.palette.neutralPrimary}};
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.15s ease;
+        }
+
+        .quicklink-pill a:hover {
+            background-color: {{@root.theme.palette.neutralLight}};
+            color: {{@root.theme.palette.themePrimary}};
+        }
+
+    </style>
+
+    <div class="template">
+
+        {{#if @root.properties.showSelectedFilters}}
+            <pnp-selectedfilters
+                data-filters="{{JSONstringify filters.selectedFilters 2}}"
+                data-filters-configuration="{{JSONstringify filters.filtersConfiguration 2}}"
+                data-instance-id="{{filters.instanceId}}"
+                data-operator="{{filters.filterOperator}}"
+                data-theme-variant="{{JSONstringify @root.theme}}"
+            ></pnp-selectedfilters>
+        {{/if}}
+
+        <div class="quicklinks-container">
+            {{#each data.items as |item|}}
+                <div class="quicklink-pill">
+                    <a href="{{slot item @root.slots.Path}}">{{slot item @root.slots.Title}}</a>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+    {{#if @root.properties.paging.showPaging}}
+        <pnp-pagination
+            data-total-items="{{@root.data.totalItemsCount}}"
+            data-hide-first-last-pages="{{@root.properties.paging.hideFirstLastPages}}"
+            data-hide-disabled="{{@root.properties.paging.hideDisabled}}"
+            data-hide-navigation="{{@root.properties.paging.hideNavigation}}"
+            data-range="{{@root.properties.paging.pagingRange}}"
+            data-items-count-per-page="{{@root.properties.paging.itemsCountPerPage}}"
+            data-current-page-number="{{@root.paging.currentPageNumber}}"
+        >
+        </pnp-pagination>
+    {{/if}}
+
+</content>
+
+<content id="placeholder-content">
+
+    <style>
+
+        .placeholder {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 4px 0;
+        }
+
+        .placeholder .pill-shimmer {
+            width: 120px;
+            height: 32px;
+            border-radius: 20px;
+        }
+
+    </style>
+
+    <div class="placeholder">
+        {{#times @root.properties.paging.itemsCountPerPage}}
+            <div class="pill-shimmer placeholder--shimmer"></div>
+        {{/times}}
+    </div>
+</content>
