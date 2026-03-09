@@ -1,0 +1,76 @@
+// Groups documents by RefinableDate in a accordian
+
+<content id="data-content">
+  <style>
+    .meeting-group {
+      margin-bottom: 4px;
+    }
+
+    .meeting-group summary {
+      background-color: {{@root.theme.palette.neutralLighter}};
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      color: {{@root.theme.palette.neutralPrimary}};
+      list-style: none;
+    }
+
+    .meeting-group summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .meeting-group summary:hover {
+      background-color: {{@root.theme.palette.neutralLight}};
+    }
+
+    .meeting-group summary .chevron {
+      transition: transform 0.2s ease;
+      font-size: 12px;
+    }
+
+    .meeting-group[open] summary .chevron {
+      transform: rotate(90deg);
+    }
+
+    .meeting-group-items {
+      padding: 4px 0 4px 14px;
+    }
+
+    .meeting-item {
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .meeting-item a {
+      color: {{@root.theme.palette.themePrimary}};
+      text-decoration: none;
+    }
+
+    .meeting-item a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <div class="template">
+    {{#group data.items by="RefinableDate03"}}
+      <details class="meeting-group">
+        <summary>
+          <span>{{getDate (regex '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z' this.value) "MMMM D, YYYY"}}</span>
+          <span class="chevron">&#9654;</span>
+        </summary>
+        <div class="meeting-group-items">
+          {{#each this.items}}
+            <div class="meeting-item">
+              <a href="{{Path}}">{{Filename}}</a>
+            </div>
+          {{/each}}
+        </div>
+      </details>
+    {{/group}}
+  </div>
+</content>
